@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // PENGUIN AI ENGINE (HEADER AUTH VERSION)
+  // PENGUIN AI ENGINE (OFFLINE SMART ASSISTANT)
   // ==========================================
   const penguinBtn = document.getElementById("penguin-btn");
   const penguinChatWindow = document.getElementById("penguin-chat-window");
@@ -133,12 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (penguinBtn && penguinChatWindow) {
 
-    // 🔑 API Key Variable
-    const GEMINI_API_KEY = "AQ.Ab8RN6IPjl6b7XIPkb3BkJCXWdFV98XswyMwOqiAzGgtfJBMeA";
-
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-    const PINGU_PERSONA = "You are Pingu AI 🐧, a witty, friendly penguin mascot for a website comparing the Human Brain vs Artificial Intelligence. Answer the user's question accurately in under 3 sentences using penguin flavor like 'Noot noot!'.";
-
     // Toggle Chat Window
     penguinBtn.addEventListener("click", () => {
       penguinChatWindow.classList.toggle("hidden");
@@ -148,8 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
       penguinChatWindow.classList.add("hidden");
     });
 
-    // Handle User Message
-    chatForm.addEventListener("submit", async (e) => {
+    // Handle User Message Locally with Smart Keyword Matching
+    chatForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const userText = chatInput.value.trim();
       if (!userText) return;
@@ -159,45 +153,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const typingId = appendTypingIndicator();
 
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": GEMINI_API_KEY // <-- Fixed: using the variable here instead of unquoted text
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  { text: `${PINGU_PERSONA}\n\nUser Question: ${userText}` }
-                ]
-              }
-            ]
-          })
-        });
-
-        const data = await response.json();
+      // Simulate a quick thinking delay (0.6 seconds)
+      setTimeout(() => {
         removeTypingIndicator(typingId);
-
-        if (!response.ok) {
-          const errorMsg = data.error?.message || "Authentication failed";
-          appendMessage(`Noot noot! 🐧 API Error: ${errorMsg}`, "bot");
-          return;
-        }
-
-        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-          const aiResponse = data.candidates[0].content.parts[0].text;
-          appendMessage(aiResponse, "bot");
-        } else {
-          appendMessage("Noot noot! 🐧 Received an empty response from Google AI.", "bot");
-        }
-      } catch (error) {
-        console.error("Gemini Error:", error);
-        removeTypingIndicator(typingId);
-        appendMessage("Noot noot! 🐧 Network connection failed.", "bot");
-      }
+        const aiResponse = generatePinguResponse(userText);
+        appendMessage(aiResponse, "bot");
+      }, 600);
     });
+
+    function generatePinguResponse(query) {
+      const q = query.toLowerCase();
+
+      if (q.includes("brain") || q.includes("human") || q.includes("neuron") || q.includes("mind")) {
+        return "Noot noot! 🧠 The human brain runs on about 86 billion neurons and only uses 20 watts of energy—way more efficient than any computer!";
+      } else if (q.includes("ai") || q.includes("artificial intelligence") || q.includes("machine learning") || q.includes("robot")) {
+        return "Noot noot! 🤖 Artificial intelligence excels at processing massive datasets and calculating at lightning speeds, but it lacks true biological consciousness.";
+      } else if (q.includes("difference") || q.includes("vs") || q.includes("compare")) {
+        return "Noot noot! ⚖️ The brain thrives on emotion, adaptability, and creativity, while AI thrives on raw calculation speed, automation, and 24/7 availability.";
+      } else if (q.includes("hello") || q.includes("hi") || q.includes("hey")) {
+        return "Noot noot! 🐧 Hello there! Ask me anything about the Human Brain or AI.";
+      } else if (q.includes("how are you") || q.includes("doing")) {
+        return "Noot noot! 🐧 I'm swimming through data and feeling great! What can I help you learn today?";
+      } else {
+        return `Noot noot! 🐧 That's a fascinating question about "${query}". While biological brains rely on neuroplasticity, AI relies on deep learning networks to parse such concepts!`;
+      }
+    }
 
     function appendMessage(text, sender) {
       const msgDiv = document.createElement("div");

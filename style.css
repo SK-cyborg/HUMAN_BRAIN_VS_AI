@@ -389,6 +389,8 @@ footer {
 
 .page-header.ai-header h1 {
   background: linear-gradient(135deg, var(--text-main), var(--ai-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .page-header p {
@@ -396,9 +398,10 @@ footer {
   font-size: 1.1rem;
 }
 
+/* Fixed visibility rule for AI header subtitle */
 .page-header.ai-header p {
-  color: var(--text-secondary); /* Ensures clear visibility */
-  -webkit-text-fill-color: var(--text-secondary);
+  color: var(--text-secondary) !important;
+  -webkit-text-fill-color: var(--text-secondary) !important;
 }
 
 .content-container {

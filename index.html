@@ -95,6 +95,41 @@
     </div>
   </footer>
 
+  <!-- ======================================= -->
+  <!-- PENGUIN AI ASSISTANT WIDGET -->
+  <!-- ======================================= -->
+  <div id="penguin-widget" class="penguin-container">
+    <div class="penguin-badge">Ask Penguin AI! 🐧</div>
+
+    <button id="penguin-btn" class="penguin-btn" aria-label="Ask Penguin AI">
+      <span class="penguin-avatar">🐧</span>
+    </button>
+
+    <div id="penguin-chat-window" class="penguin-chat-window hidden">
+      <div class="penguin-chat-header">
+        <div class="penguin-header-info">
+          <span class="penguin-avatar-small">🐧</span>
+          <div>
+            <h4>Pingu AI</h4>
+            <span class="online-status">🟢 Powered by Google AI</span>
+          </div>
+        </div>
+        <button id="penguin-close" class="penguin-close-btn">&times;</button>
+      </div>
+
+      <div id="penguin-chat-messages" class="penguin-chat-messages">
+        <div class="chat-msg bot">
+          <span>Noot noot! I'm <strong>Pingu AI</strong> 🐧. Ask me any doubts about the Human Brain or AI!</span>
+        </div>
+      </div>
+
+      <form id="penguin-chat-form" class="penguin-chat-input-area">
+        <input type="text" id="penguin-input" placeholder="Ask a doubt..." autocomplete="off" required />
+        <button type="submit" class="penguin-send-btn">➔</button>
+      </form>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

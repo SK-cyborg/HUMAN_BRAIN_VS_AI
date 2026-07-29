@@ -398,10 +398,13 @@ footer {
   font-size: 1.1rem;
 }
 
-/* Fixed visibility rule for AI header subtitle */
+/* Explicit fix for AI header paragraph text visibility */
 .page-header.ai-header p {
-  color: var(--text-secondary) !important;
+  background: none !important;
+  -webkit-background-clip: initial !important;
   -webkit-text-fill-color: var(--text-secondary) !important;
+  color: var(--text-secondary) !important;
+  opacity: 1 !important;
 }
 
 .content-container {

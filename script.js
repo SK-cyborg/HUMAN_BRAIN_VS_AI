@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hamburger.classList.toggle("active");
       navLinks.classList.toggle("active");
     });
+
     document.querySelectorAll(".nav-links a").forEach(link => {
       link.addEventListener("click", () => {
         hamburger.classList.remove("active");
@@ -28,6 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Scroll Reveal Animation ---
   const revealElements = document.querySelectorAll(".reveal, .glass-card, .stat-card, .split-side, .timeline-item");
+  
+  revealElements.forEach(el => {
+    if (!el.classList.contains("reveal")) {
+      el.classList.add("reveal");
+    }
+  });
+
   const checkReveal = () => {
     const triggerBottom = window.innerHeight * 0.85;
     revealElements.forEach(el => {
@@ -37,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   };
+
   window.addEventListener("scroll", checkReveal);
   checkReveal();
 
@@ -45,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (canvas) {
     const ctx = canvas.getContext("2d");
     let particlesArray = [];
+
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -64,8 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
+
         if (this.x > canvas.width) this.x = 0;
         else if (this.x < 0) this.x = canvas.width;
+
         if (this.y > canvas.height) this.y = 0;
         else if (this.y < 0) this.y = canvas.height;
       }
@@ -102,12 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const backToTopBtn = document.getElementById("back-to-top");
   if (backToTopBtn) {
     backToTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
     });
   }
 
   // ==========================================
-  // PENGUIN AI ENGINE
+  // PENGUIN AI ENGINE (POWERED BY GEMINI 1.5 FLASH)
   // ==========================================
   const penguinBtn = document.getElementById("penguin-btn");
   const penguinChatWindow = document.getElementById("penguin-chat-window");
@@ -118,12 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (penguinBtn && penguinChatWindow) {
 
-    // Your exact API key
+    // 🔑 YOU MUST PUT A BRAND NEW API KEY HERE (GET A NEW ONE AT aistudio.google.com):
     const GEMINI_API_KEY = "AQ.Ab8RN6LEgX-kdApg_5PxbxE84ukr3WWyXkm7gu8OEruKHbR5LA";
+
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-    const SYSTEM_PROMPT = `You are Pingu AI 🐧, the interactive penguin mascot and resident assistant on an educational website called "Human Brain vs Artificial Intelligence".
-    Keep every response under 3 sentences. Maintain your fun penguin persona (using Noot noot! occasionally) while giving accurate educational facts.`;
+    const SYSTEM_PROMPT = `You are Pingu AI 🐧, the interactive penguin mascot and resident assistant on an educational website called "Human Brain vs Artificial Intelligence". Keep your responses friendly, under 3 sentences, and relevant to the human brain or AI. Use penguin sound effects occasionally.`;
 
     // Toggle Chat Window
     penguinBtn.addEventListener("click", () => {
@@ -148,24 +163,38 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const response = await fetch(API_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({
-            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents: [{ role: "user", parts: [{ text: userText }] }]
+            system_instruction: {
+              parts: [{ text: SYSTEM_PROMPT }]
+            },
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: userText }]
+              }
+            ]
           })
         });
 
         const data = await response.json();
         removeTypingIndicator(typingId);
 
+        if (!response.ok) {
+           appendMessage(`Noot noot! 🐧 Error: "${data.error.message}". Please check your API key!`, "bot");
+           return;
+        }
+
         if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-          appendMessage(data.candidates[0].content.parts[0].text, "bot");
-        } else {
-          appendMessage("Noot noot! 🐧 I ran into an error processing your query.", "bot");
+          const aiResponse = data.candidates[0].content.parts[0].text;
+          appendMessage(aiResponse, "bot");
         }
       } catch (error) {
+        console.error("Gemini Error:", error);
         removeTypingIndicator(typingId);
-        appendMessage("Noot noot! 🐧 I couldn't reach Google AI. Check your internet connection!", "bot");
+        appendMessage("Noot noot! 🐧 I couldn't connect. Check your internet or API key!", "bot");
       }
     });
 

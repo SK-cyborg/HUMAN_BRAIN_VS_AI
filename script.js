@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
       navLinks.classList.toggle("active");
     });
 
-    // Close menu when clicking links
     document.querySelectorAll(".nav-links a").forEach(link => {
       link.addEventListener("click", () => {
         hamburger.classList.remove("active");
@@ -120,5 +119,118 @@ document.addEventListener("DOMContentLoaded", () => {
         behavior: "smooth"
       });
     });
+  }
+
+  // ==========================================
+  // PENGUIN AI ENGINE (POWERED BY GEMINI 1.5 FLASH)
+  // ==========================================
+  const penguinBtn = document.getElementById("penguin-btn");
+  const penguinChatWindow = document.getElementById("penguin-chat-window");
+  const penguinClose = document.getElementById("penguin-close");
+  const chatForm = document.getElementById("penguin-chat-form");
+  const chatInput = document.getElementById("penguin-input");
+  const chatMessages = document.getElementById("penguin-chat-messages");
+
+  if (penguinBtn && penguinChatWindow) {
+
+    // 🔑 Integrated Gemini API Key
+    const GEMINI_API_KEY = "AQ.Ab8RN6LEgX-kdApg_5PxbxE84ukr3WWyXkm7gu8OEruKHbR5LA";
+
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+    const SYSTEM_PROMPT = `You are Pingu AI 🐧, the interactive penguin mascot and resident assistant on an educational website called "Human Brain vs Artificial Intelligence".
+
+YOUR PERSONALITY & TONE:
+- Friendly, enthusiastic, witty, and helpful with a slight touch of penguin humor.
+- You occasionally use sound effects like "Noot noot!", "Waddle waddle!", or "Brrr!" when appropriate.
+- You love explaining complex neuroscience and computer science concepts in simple, easy-to-understand terms.
+
+YOUR KNOWLEDGE BASE:
+- Human Brain: 86 billion neurons, runs on ~20 watts of power, relies on neuroplasticity, capable of true emotion, ethics, creativity, and lateral thinking, but prone to fatigue, emotional bias, and memory loss.
+- Artificial Intelligence: Powered by silicon chips, machine learning, deep learning, and artificial neural networks; capable of massive data processing speed, 24/7 availability, and pinpoint mathematical accuracy, but lacks consciousness, true emotion, and common sense.
+
+RESPONSE RULES:
+1. Keep every response under 3 sentences so it fits comfortably inside a small chat widget window.
+2. Maintain your fun penguin persona while giving accurate educational facts.
+3. If asked questions outside of neuroscience, computing, or brain vs AI topics, gently steer the user back to learning about brains and AI.`;
+
+    // Toggle Chat Window
+    penguinBtn.addEventListener("click", () => {
+      penguinChatWindow.classList.toggle("hidden");
+    });
+
+    penguinClose.addEventListener("click", () => {
+      penguinChatWindow.classList.add("hidden");
+    });
+
+    // Handle User Message
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+
+      appendMessage(userText, "user");
+      chatInput.value = "";
+
+      const typingId = appendTypingIndicator();
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            system_instruction: {
+              parts: [{ text: SYSTEM_PROMPT }]
+            },
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: userText }]
+              }
+            ]
+          })
+        });
+
+        const data = await response.json();
+        removeTypingIndicator(typingId);
+
+        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+          const aiResponse = data.candidates[0].content.parts[0].text;
+          appendMessage(aiResponse, "bot");
+        } else {
+          appendMessage("Noot noot! 🐧 I ran into an error processing your query. Please double check the key or try again!", "bot");
+        }
+      } catch (error) {
+        console.error("Gemini Error:", error);
+        removeTypingIndicator(typingId);
+        appendMessage("Noot noot! 🐧 I couldn't reach Google AI. Check your internet connection or API key!", "bot");
+      }
+    });
+
+    function appendMessage(text, sender) {
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("chat-msg", sender);
+      msgDiv.innerHTML = `<span>${text}</span>`;
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function appendTypingIndicator() {
+      const typingDiv = document.createElement("div");
+      const id = "typing-" + Date.now();
+      typingDiv.id = id;
+      typingDiv.classList.add("chat-msg", "bot");
+      typingDiv.innerHTML = `<span>Pingu is thinking... 🐧⚡</span>`;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      return id;
+    }
+
+    function removeTypingIndicator(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
   }
 });

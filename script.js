@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // PENGUIN AI ENGINE (STABLE V1 API VERSION)
+  // PENGUIN AI ENGINE (HEADER AUTH VERSION)
   // ==========================================
   const penguinBtn = document.getElementById("penguin-btn");
   const penguinChatWindow = document.getElementById("penguin-chat-window");
@@ -133,12 +133,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (penguinBtn && penguinChatWindow) {
 
-    // 🔑 Your Google AI Studio API Key
+    // 🔑 API Key Variable
     const GEMINI_API_KEY = "AQ.Ab8RN6IPjl6b7XIPkb3BkJCXWdFV98XswyMwOqiAzGgtfJBMeA";
 
-    // Switched from v1beta to stable v1 endpoint path
-    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
     const PINGU_PERSONA = "You are Pingu AI 🐧, a witty, friendly penguin mascot for a website comparing the Human Brain vs Artificial Intelligence. Answer the user's question accurately in under 3 sentences using penguin flavor like 'Noot noot!'.";
 
     // Toggle Chat Window
@@ -165,7 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const response = await fetch(API_URL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "x-goog-api-key": GEMINI_API_KEY // <-- Fixed: using the variable here instead of unquoted text
           },
           body: JSON.stringify({
             contents: [
@@ -182,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         removeTypingIndicator(typingId);
 
         if (!response.ok) {
-          const errorMsg = data.error?.message || "API error";
+          const errorMsg = data.error?.message || "Authentication failed";
           appendMessage(`Noot noot! 🐧 API Error: ${errorMsg}`, "bot");
           return;
         }

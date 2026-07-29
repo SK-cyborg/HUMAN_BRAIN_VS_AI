@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // PENGUIN AI ENGINE (POWERED BY GEMINI 1.5 FLASH)
+  // PENGUIN AI ENGINE (FOOLPROOF VERSION)
   // ==========================================
   const penguinBtn = document.getElementById("penguin-btn");
   const penguinChatWindow = document.getElementById("penguin-chat-window");
@@ -133,12 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (penguinBtn && penguinChatWindow) {
 
-    // 🔑 YOU MUST PUT A BRAND NEW API KEY HERE (GET A NEW ONE AT aistudio.google.com):
+    // 🔑 Replace with your Google AI Studio API Key:
     const GEMINI_API_KEY = "AQ.Ab8RN6LEgX-kdApg_5PxbxE84ukr3WWyXkm7gu8OEruKHbR5LA";
 
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
-    const SYSTEM_PROMPT = `You are Pingu AI 🐧, the interactive penguin mascot and resident assistant on an educational website called "Human Brain vs Artificial Intelligence". Keep your responses friendly, under 3 sentences, and relevant to the human brain or AI. Use penguin sound effects occasionally.`;
+    const PINGU_PERSONA = "You are Pingu AI 🐧, a witty, friendly penguin mascot for a website comparing the Human Brain vs Artificial Intelligence. Answer the user's question accurately in under 3 sentences using penguin flavor like 'Noot noot!'.";
 
     // Toggle Chat Window
     penguinBtn.addEventListener("click", () => {
@@ -167,13 +167,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            system_instruction: {
-              parts: [{ text: SYSTEM_PROMPT }]
-            },
             contents: [
               {
-                role: "user",
-                parts: [{ text: userText }]
+                parts: [
+                  { text: `${PINGU_PERSONA}\n\nUser Question: ${userText}` }
+                ]
               }
             ]
           })
@@ -183,18 +181,21 @@ document.addEventListener("DOMContentLoaded", () => {
         removeTypingIndicator(typingId);
 
         if (!response.ok) {
-           appendMessage(`Noot noot! 🐧 Error: "${data.error.message}". Please check your API key!`, "bot");
-           return;
+          const errorMsg = data.error?.message || "Unknown API error";
+          appendMessage(`Noot noot! 🐧 API Error: ${errorMsg}`, "bot");
+          return;
         }
 
         if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
           const aiResponse = data.candidates[0].content.parts[0].text;
           appendMessage(aiResponse, "bot");
+        } else {
+          appendMessage("Noot noot! 🐧 Received an empty response from Google AI.", "bot");
         }
       } catch (error) {
         console.error("Gemini Error:", error);
         removeTypingIndicator(typingId);
-        appendMessage("Noot noot! 🐧 I couldn't connect. Check your internet or API key!", "bot");
+        appendMessage("Noot noot! 🐧 Network connection failed.", "bot");
       }
     });
 

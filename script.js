@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (penguinBtn && penguinChatWindow) {
 
     // 🔑 Paste your brand-new Google AI Studio API Key here:
-    const GEMINI_API_KEY = "PASTE_YOUR_NEW_KEY_HERE";
+    const GEMINI_API_KEY = "AQ.Ab8RN6LIs5F1hL1trLRayi4bVzlUybRJj7xPqA0ZThGGCs4jZg";
 
     const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-goog-api-key": GEMINI_API_KEY
+            "x-goog-api-key": AQ.Ab8RN6LIs5F1hL1trLRayi4bVzlUybRJj7xPqA0ZThGGCs4jZg
           },
           body: JSON.stringify({
             contents: [

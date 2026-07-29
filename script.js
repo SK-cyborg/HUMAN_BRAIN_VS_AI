@@ -134,9 +134,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (penguinBtn && penguinChatWindow) {
 
     // 🔑 Replace with your Google AI Studio API Key:
-    const GEMINI_API_KEY = "AQ.Ab8RN6LEgX-kdApg_5PxbxE84ukr3WWyXkm7gu8OEruKHbR5LA";
+    const GEMINI_API_KEY = "AQ.Ab8RN6LIs5F1hL1trLRayi4bVzlUybRJj7xPqA0ZThGGCs4jZg";
 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${AQ.Ab8RN6LEgX-kdApg_5PxbxE84ukr3WWyXkm7gu8OEruKHbR5LA}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${AQ.Ab8RN6LIs5F1hL1trLRayi4bVzlUybRJj7xPqA0ZThGGCs4jZg}`;
 
     const PINGU_PERSONA = "You are Pingu AI 🐧, a witty, friendly penguin mascot for a website comparing the Human Brain vs Artificial Intelligence. Answer the user's question accurately in under 3 sentences using penguin flavor like 'Noot noot!'.";
 

@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // PENGUIN AI ENGINE (FOOLPROOF VERSION)
+  // PENGUIN AI ENGINE (HEADER AUTH VERSION)
   // ==========================================
   const penguinBtn = document.getElementById("penguin-btn");
   const penguinChatWindow = document.getElementById("penguin-chat-window");
@@ -133,10 +133,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (penguinBtn && penguinChatWindow) {
 
-    // 🔑 Replace with your Google AI Studio API Key:
-    const GEMINI_API_KEY = "AQ.Ab8RN6LIs5F1hL1trLRayi4bVzlUybRJj7xPqA0ZThGGCs4jZg";
+    // 🔑 Paste your brand-new Google AI Studio API Key here:
+    const GEMINI_API_KEY = "PASTE_YOUR_NEW_KEY_HERE";
 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${AQ.Ab8RN6LIs5F1hL1trLRayi4bVzlUybRJj7xPqA0ZThGGCs4jZg}`;
+    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
     const PINGU_PERSONA = "You are Pingu AI 🐧, a witty, friendly penguin mascot for a website comparing the Human Brain vs Artificial Intelligence. Answer the user's question accurately in under 3 sentences using penguin flavor like 'Noot noot!'.";
 
@@ -164,7 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const response = await fetch(API_URL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "x-goog-api-key": GEMINI_API_KEY
           },
           body: JSON.stringify({
             contents: [
@@ -181,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         removeTypingIndicator(typingId);
 
         if (!response.ok) {
-          const errorMsg = data.error?.message || "Unknown API error";
+          const errorMsg = data.error?.message || "Authentication failed";
           appendMessage(`Noot noot! 🐧 API Error: ${errorMsg}`, "bot");
           return;
         }

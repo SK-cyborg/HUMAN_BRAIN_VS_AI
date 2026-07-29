@@ -704,3 +704,199 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ==========================================
+   PENGUIN AI ASSISTANT WIDGET
+   ========================================== */
+.penguin-container {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--font-body);
+}
+
+.penguin-badge {
+  background: linear-gradient(135deg, var(--ai-cyan), var(--primary-blue));
+  color: #0B1020;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+  animation: floatBadge 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.penguin-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 2px solid var(--ai-cyan);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.penguin-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.7);
+}
+
+.penguin-avatar {
+  font-size: 2rem;
+}
+
+.penguin-chat-window {
+  position: absolute;
+  bottom: 75px;
+  right: 0;
+  width: 330px;
+  height: 430px;
+  background: rgba(18, 26, 44, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom right;
+}
+
+.penguin-chat-window.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8) translateY(20px);
+}
+
+.penguin-chat-header {
+  background: rgba(11, 16, 32, 0.9);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.penguin-header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.penguin-avatar-small {
+  font-size: 1.5rem;
+}
+
+.penguin-header-info h4 {
+  font-size: 1rem;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.online-status {
+  font-size: 0.7rem;
+  color: var(--success-green);
+  display: block;
+}
+
+.penguin-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.penguin-close-btn:hover {
+  color: var(--text-main);
+}
+
+.penguin-chat-messages {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.chat-msg {
+  max-width: 80%;
+  padding: 0.7rem 1rem;
+  border-radius: 15px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.chat-msg.bot {
+  background: rgba(139, 92, 246, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: var(--text-main);
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+}
+
+.chat-msg.user {
+  background: var(--primary-blue);
+  color: #ffffff;
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+
+.penguin-chat-input-area {
+  display: flex;
+  padding: 0.8rem;
+  background: rgba(11, 16, 32, 0.8);
+  border-top: 1px solid var(--border-color);
+  gap: 0.5rem;
+}
+
+.penguin-chat-input-area input {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.6rem 1rem;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.penguin-chat-input-area input:focus {
+  border-color: var(--ai-cyan);
+}
+
+.penguin-send-btn {
+  background: linear-gradient(135deg, var(--ai-cyan), var(--primary-blue));
+  border: none;
+  color: #0B1020;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.penguin-send-btn:hover {
+  transform: scale(1.05);
+}

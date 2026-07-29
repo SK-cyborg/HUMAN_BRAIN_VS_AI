@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
       hamburger.classList.toggle("active");
       navLinks.classList.toggle("active");
     });
-
     document.querySelectorAll(".nav-links a").forEach(link => {
       link.addEventListener("click", () => {
         hamburger.classList.remove("active");
@@ -29,13 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Scroll Reveal Animation ---
   const revealElements = document.querySelectorAll(".reveal, .glass-card, .stat-card, .split-side, .timeline-item");
-  
-  revealElements.forEach(el => {
-    if (!el.classList.contains("reveal")) {
-      el.classList.add("reveal");
-    }
-  });
-
   const checkReveal = () => {
     const triggerBottom = window.innerHeight * 0.85;
     revealElements.forEach(el => {
@@ -45,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   };
-
   window.addEventListener("scroll", checkReveal);
   checkReveal();
 
@@ -54,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (canvas) {
     const ctx = canvas.getContext("2d");
     let particlesArray = [];
-
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -74,10 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-
         if (this.x > canvas.width) this.x = 0;
         else if (this.x < 0) this.x = canvas.width;
-
         if (this.y > canvas.height) this.y = 0;
         else if (this.y < 0) this.y = canvas.height;
       }
@@ -114,15 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const backToTopBtn = document.getElementById("back-to-top");
   if (backToTopBtn) {
     backToTopBtn.addEventListener("click", () => {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
   // ==========================================
-  // PENGUIN AI ENGINE (POWERED BY GEMINI 1.5 FLASH)
+  // PENGUIN AI ENGINE
   // ==========================================
   const penguinBtn = document.getElementById("penguin-btn");
   const penguinChatWindow = document.getElementById("penguin-chat-window");
@@ -133,26 +118,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (penguinBtn && penguinChatWindow) {
 
-    // 🔑 Integrated Gemini API Key
+    // Your exact API key
     const GEMINI_API_KEY = "AQ.Ab8RN6LEgX-kdApg_5PxbxE84ukr3WWyXkm7gu8OEruKHbR5LA";
-
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
     const SYSTEM_PROMPT = `You are Pingu AI 🐧, the interactive penguin mascot and resident assistant on an educational website called "Human Brain vs Artificial Intelligence".
-
-YOUR PERSONALITY & TONE:
-- Friendly, enthusiastic, witty, and helpful with a slight touch of penguin humor.
-- You occasionally use sound effects like "Noot noot!", "Waddle waddle!", or "Brrr!" when appropriate.
-- You love explaining complex neuroscience and computer science concepts in simple, easy-to-understand terms.
-
-YOUR KNOWLEDGE BASE:
-- Human Brain: 86 billion neurons, runs on ~20 watts of power, relies on neuroplasticity, capable of true emotion, ethics, creativity, and lateral thinking, but prone to fatigue, emotional bias, and memory loss.
-- Artificial Intelligence: Powered by silicon chips, machine learning, deep learning, and artificial neural networks; capable of massive data processing speed, 24/7 availability, and pinpoint mathematical accuracy, but lacks consciousness, true emotion, and common sense.
-
-RESPONSE RULES:
-1. Keep every response under 3 sentences so it fits comfortably inside a small chat widget window.
-2. Maintain your fun penguin persona while giving accurate educational facts.
-3. If asked questions outside of neuroscience, computing, or brain vs AI topics, gently steer the user back to learning about brains and AI.`;
+    Keep every response under 3 sentences. Maintain your fun penguin persona (using Noot noot! occasionally) while giving accurate educational facts.`;
 
     // Toggle Chat Window
     penguinBtn.addEventListener("click", () => {
@@ -177,19 +148,10 @@ RESPONSE RULES:
       try {
         const response = await fetch(API_URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            system_instruction: {
-              parts: [{ text: SYSTEM_PROMPT }]
-            },
-            contents: [
-              {
-                role: "user",
-                parts: [{ text: userText }]
-              }
-            ]
+            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+            contents: [{ role: "user", parts: [{ text: userText }] }]
           })
         });
 
@@ -197,15 +159,13 @@ RESPONSE RULES:
         removeTypingIndicator(typingId);
 
         if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-          const aiResponse = data.candidates[0].content.parts[0].text;
-          appendMessage(aiResponse, "bot");
+          appendMessage(data.candidates[0].content.parts[0].text, "bot");
         } else {
-          appendMessage("Noot noot! 🐧 I ran into an error processing your query. Please double check the key or try again!", "bot");
+          appendMessage("Noot noot! 🐧 I ran into an error processing your query.", "bot");
         }
       } catch (error) {
-        console.error("Gemini Error:", error);
         removeTypingIndicator(typingId);
-        appendMessage("Noot noot! 🐧 I couldn't reach Google AI. Check your internet connection or API key!", "bot");
+        appendMessage("Noot noot! 🐧 I couldn't reach Google AI. Check your internet connection!", "bot");
       }
     });
 

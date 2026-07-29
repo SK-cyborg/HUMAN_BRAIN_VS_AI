@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Scroll Reveal Animation ---
   const revealElements = document.querySelectorAll(".reveal, .glass-card, .stat-card, .split-side, .timeline-item");
   
-  // Add base reveal class to targeted elements if not already present
   revealElements.forEach(el => {
     if (!el.classList.contains("reveal")) {
       el.classList.add("reveal");
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.addEventListener("scroll", checkReveal);
-  checkReveal(); // Initial check on load
+  checkReveal();
 
   // --- Floating Glowing Particles Canvas ---
   const canvas = document.getElementById("particles-canvas");

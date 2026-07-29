@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (penguinBtn && penguinChatWindow) {
 
     // 🔑 API Key Variable
-    const GEMINI_API_KEY = "AQ.Ab8RN6LIs5F1hL1trLRayi4bVzlUybRJj7xPqA0ZThGGCs4jZg";
+    const GEMINI_API_KEY = "AQ.Ab8RN6IPjl6b7XIPkb3BkJCXWdFV98XswyMwOqiAzGgtfJBMeA";
 
     const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 

@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (penguinBtn && penguinChatWindow) {
 
     // 🔑 YOU MUST PUT A BRAND NEW API KEY HERE (GET A NEW ONE AT aistudio.google.com):
-    const GEMINI_API_KEY = "AQ.Ab8RN6LEgX-kdApg_5PxbxE84ukr3WWyXkm7gu8OEruKHbR5LA";
+    const GEMINI_API_KEY = "AQ.Ab8RN6I7WnnSarOAm3X1spBsMyCIZUN4XpVPijpyzOcuw5cq0g";
 
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 

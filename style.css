@@ -382,29 +382,35 @@ footer {
 .page-header h1 {
   font-size: clamp(2.2rem, 4vw, 3.5rem);
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--text-main), var(--brain-purple));
+  background: linear-gradient(135deg, #F8FAFC 30%, #8B5CF6 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
 .page-header.ai-header h1 {
-  background: linear-gradient(135deg, var(--text-main), var(--ai-cyan));
+  background: linear-gradient(135deg, #F8FAFC 30%, #00E5FF 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
 }
 
-.page-header p {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-}
-
-/* Explicit fix for AI header paragraph text visibility */
-.page-header.ai-header p {
+/* Strictly force solid visible color for all subtitle text across headers */
+.page-header p,
+.page-header.ai-header p,
+.header-subtitle-wrap p {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
   background: none !important;
-  -webkit-background-clip: initial !important;
-  -webkit-text-fill-color: var(--text-secondary) !important;
-  color: var(--text-secondary) !important;
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+  display: block;
   opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .content-container {
